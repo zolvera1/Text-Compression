@@ -18,12 +18,17 @@ In summary, your decoder should assume that the compressed file is split into th
 2. Next 4 bytes – Directly following the 256 code lengths, the subsequent four raw bytes represent an int value corresponding to the total number of symbols coded in the file (not including the first 256 + 4 = 260 header bytes). This value can be used to determine when to terminate your decoding loop.
 3. The rest of the file – After this point, all subsequent bits in the file represent prefix-free Huffman codewords as defined by the canonical Huffman tree. If the very last codeword at the end of the file does not fall on a byte boundary, then the file is padded with 0s accordingly so that it does fall on a byte boundary.
 The example compressed file provided with this assignment represents ASCII English text. Therefore, after successful decoding, you should be able to open it with a text editor to see English words. If you see gibberish, it is likely that something in your canonical Huffman tree construction or decoding loop is incorrect.
+
+
 Part 2 – Encoding Huffman Codes
 The next part of the assignment is to write an encoder capable of compressing raw input files and producing encoded files that can be decoded by the decoder from Part 1. Thus, your encoder should output a file with the same structure as in Part 1; the first 256 bytes written should represent the codeword lengths in canonical tree form, the next 4 bytes should represent the number of encoded symbols, and the rest of the bytes should be filled with codewords.
 The encoding process is essentially the same as the decoding process, only in reverse – instead of reading bytes, you are writing them. Instead of transforming Huffman codewords into bytes, you will be transforming bytes into Huffman codewords.
 When you sit down to start writing your encoder, you’ll notice that the first thing you have to output to the encoded file is a list of 256 codeword lengths. While one possibility is to simply reuse the same codeword lengths (and therefore the same codewords) from the encoded file given with this assignment, you should not do this. Instead, your encoder should generate optimal Huffman codeword lengths for the specific content that is being encoded, according to the symbol frequencies present in the input data. To do this, you will need to scan the entire source file and track how many of each symbol is encountered. These values can be used to calculate the average probabilities of each symbol
 
 across the entire input file. Next, use this information to construct an optimal, minimum variance Huffman tree according to the algorithm described in class (and also explained in the book). This tree will provide the correct lengths for each codeword according to their probabilities in the source input. Finally, throw away the generated Huffman tree and use the codeword lengths alone to re-generate a new Huffman tree that represents the canonical tree for those lengths. You should be able to re-use some code from Part 1 to do this.
+
+
+
 Part 3 – Entropy Calculation
 For the last part of the assignment, perform the following steps and answer the following questions.
 1. Use your decoder to decode the provided compressed file, producing ASCII English text.
