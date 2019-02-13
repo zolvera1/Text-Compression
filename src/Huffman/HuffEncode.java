@@ -22,7 +22,7 @@ public class HuffEncode {
         //  Should end up with total number of symbols
         //        // (i.e., length of file) as num_symbolss
         int next = fis.read();
-        while(next != -1) {
+        while (next != -1) {
             //keep track of num of symbols and their count.
             symbol_counts[next]++;
             num_symbols++;
@@ -36,11 +36,11 @@ public class HuffEncode {
         double achieved = 0;
         // Create array of symbol values
         int[] symbols = new int[256];
-        for (int i=0; i<256; i++) {
+        for (int i = 0; i < 256; i++) {
             symbols[i] = i;
-            Double prob = new Double ((double)(symbol_counts[i])/(double)num_symbols);
-            if(prob > 0) {
-                entropy += ((double) prob*(-1)*(Math.log((double)prob))/Math.log(2));
+            Double prob = new Double((double) (symbol_counts[i]) / (double) num_symbols);
+            if (prob > 0) {
+                entropy += ((double) prob * (-1) * (Math.log((double) prob)) / Math.log(2));
             }
 
         }
@@ -57,28 +57,28 @@ public class HuffEncode {
         //now for part 3. we will use the equations KMP gave and also the book.
         //1)
         // Write out code lengths for each symbol as 8 bit value to output file.
-            for(int i = 0; i != 256; i++) {
-                //already have it to write
-                Double probs = new Double((double)symbol_counts[i]/(double)num_symbols);
-                if(probs > 0) {
-                    achieved += ((double) probs*(double)encoder.getCode(i).length());
-                }
-                bit_sink.write(encoder.getCode(i).length(),8);
+        for (int i = 0; i != 256; i++) {
+            //already have it to write
+            Double probs = new Double((double) symbol_counts[i] / (double) num_symbols);
+            if (probs > 0) {
+                achieved += ((double) probs * (double) encoder.getCode(i).length());
             }
-            //now for the encoder achieved entropy
-            System.out.println("The encoder achieved the entropy of " + achieved);
+            bit_sink.write(encoder.getCode(i).length(), 8);
+        }
+        //now for the encoder achieved entropy
+        System.out.println("The encoder achieved the entropy of " + achieved);
         // Write out total number of symbols as 32 bit value.
-        bit_sink.write(num_symbols,32);
+        bit_sink.write(num_symbols, 32);
         // Reopen input file.
         fis = new FileInputStream(input_file_name);
 
         // Go through input file, read each symbol (i.e. byte),
         // look up code using encoder.getCode() and write code
         // out to output file.
-       next = fis.read();
-        while(next != -1) {
-           encoder.encode(next,bit_sink);
-           next = fis.read();
+        next = fis.read();
+        while (next != -1) {
+            encoder.encode(next, bit_sink);
+            next = fis.read();
         }
 
         // Pad output to next word.
