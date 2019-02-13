@@ -11,7 +11,6 @@ abstract class Node implements Comparable<Node> {
    abstract Node right();
    abstract int symbol();
 
-
     @Override
     public int compareTo(Node o) {
         if(count() != o.count()) {
