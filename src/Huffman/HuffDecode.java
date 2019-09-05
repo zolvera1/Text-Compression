@@ -11,8 +11,8 @@ public class HuffDecode {
 
     public static void main(String[] args) throws IOException, InsufficientBitsLeftException {
 
-            String input = "data/recompressed.txt";
-            String output = "data/reuncompressed.txt";
+            String input = "data/compressed.dat";
+            String output = "data/uncompress.txt";
             FileInputStream fis = new FileInputStream(input);
             InputStreamBitSource _bitsource =  new InputStreamBitSource(fis);
             System.out.println("Decoding file " + input);
