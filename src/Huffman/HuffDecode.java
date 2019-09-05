@@ -40,13 +40,7 @@ public class HuffDecode {
                 symCounts[sym]++;
                 fos.write(sym);
             }
-            //calculating the entropy for part 3
-                for(int i= 0; i != 256; i++) {
-                    double prob = ((double)symCounts[i]/(double)numSymbols);
-                    if(symCounts[i] >= 0) {
-                        System.out.println("Probability of symbols at " + i + " is " + prob);
-                    }
-                }
+            
             fos.flush();
             fos.close();
             fis.close();
