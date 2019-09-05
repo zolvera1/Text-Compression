@@ -7,7 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 
-public class Decoder {
+public class HuffDecode {
 
     public static void main(String[] args) throws IOException, InsufficientBitsLeftException {
 
